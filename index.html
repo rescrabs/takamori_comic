@@ -185,13 +185,13 @@
 			}
 
 			const avatars = {
-				kiara: "https://i.imgur.com/VJSKO0B.png",
-				calli: "https://i.imgur.com/G24MNm6.png",
-				gura: "https://i.imgur.com/t6fqg63.png",
-				amelia: "https://i.imgur.com/5lmKTOi.png",
-				ame: "https://i.imgur.com/5lmKTOi.png",
-				ina: "https://i.imgur.com/Y7jUnnP.png",
-				irys: "https://i.imgur.com/Q9LFVww.png",
+				kiara: "https://rescrabs.github.io/takamori_comic/kiara.png",
+				calli: "https://rescrabs.github.io/takamori_comic/calli.png",
+				gura: "https://rescrabs.github.io/takamori_comic/gura.png",
+				amelia: "https://rescrabs.github.io/takamori_comic/ame.png",
+				ame: "https://rescrabs.github.io/takamori_comic/ame.png",
+				ina: "https://rescrabs.github.io/takamori_comic/ina.png",
+				irys: "https://rescrabs.github.io/takamori_comic/irys.png",
 			}
 			function drawAvatars(characters, side) {
 				let retTag = document.createElement("div");
@@ -201,9 +201,9 @@
 					let img = document.createElement("img");
 					if (character === "smolame") {
 						if (side === leftSide) {
-							img.src = "https://i.imgur.com/DLzgrug.png";
+							img.src = "https://rescrabs.github.io/takamori_comic/smolAmeLeft.png";
 						} else {
-							img.src = "https://i.imgur.com/nfBJA8c.png";
+							img.src = "https://rescrabs.github.io/takamori_comic/smolAmeRight.png";
 						}
 					} else if (avatars[character] === undefined) {
 						throw new Error("unknown character: "+character);
