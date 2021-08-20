@@ -319,7 +319,7 @@
 			
 			function renderCanvas() {
 				console.log("test");
-				html2canvas(document.getElementById("renderSpace")).then(function(canvas) {
+				html2canvas(document.getElementById("renderSpace"), {foreignObjectRendering: true}).then(function(canvas) {
 					window.open(canvas.toDataURL(), "_blank");
 				});
 			}
