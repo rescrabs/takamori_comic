@@ -100,7 +100,6 @@
 				}
 			}, 200);
 			function updateSlider(amount) {
-				updateHash();
 				let val = document.getElementById("textWidth").value;
 				document.getElementById("textWidthDisplay").innerHTML = val + "px";
 				updateSliderRender(val);
@@ -114,7 +113,6 @@
 				}
 			}, 200);
 			function updateVerSeparation(amount) {
-				updateHash();
 				let verSeparation = document.getElementById("verSeparation").value;
 				document.getElementById("verSeparationDisplay").innerHTML = verSeparation + "px";
 				updateVerSeparationRender(verSeparation);
@@ -128,7 +126,6 @@
 				}
 			}, 200);
 			function updateHorSeparation(amount) {
-				updateHash();
 				let horSeparation = document.getElementById("horSeparation").value;
 				document.getElementById("horSeparationDisplay").innerHTML = horSeparation + "px";
 				updateHorSeparationRender(horSeparation);
@@ -137,7 +134,6 @@
 			let startSide;
 
 			function updateSide(side) {
-				updateHash();
 				startSide = side;
 				let root = document.getElementById("renderSpace");
 				if (root.innerHTML !== "") {
@@ -300,10 +296,7 @@
 				}
 			}
 
-			function updateText(...args){
-				updateHash();
-				return debounce(runRender, 500)(...args);
-			}
+			const updateText = debounce(runRender, 500);
 
 			function parseHash(hash){
 				if (!hash) {
@@ -332,6 +325,12 @@
 					side: document.getElementById("startSide").value,
 				}
 				location.hash = "#"+encodeURIComponent(btoa(JSON.stringify(data)));
+				if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+					navigator.clipboard.writeText(location);
+					alert("Copied link to clipboard!");
+				}else{
+					prompt("Link: ", location)
+				}
 			}
 
 			window.onload = function() {
@@ -404,6 +403,7 @@ kiara: YOU'RE THE ONE WHO CAME IN HERE</textarea>
 				</div>
 			</div>
 			<button onclick="renderCanvas()">Open as PNG</button>
+			<button onclick="updateHash()">Get link</button>
 			<div id="renderSpace"></div>
 		</div>
 	</body>
