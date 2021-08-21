@@ -293,6 +293,7 @@
 			function runRender() {
 				let root = document.getElementById("renderSpace");
 				root.innerHTML = "";
+				let sideSep = document.getElementById("horSeparation").max - horizontalSeparation;
 				let entries = parseInput(document.getElementById("inp").value);
 				for (entry of entries) {
                     if (entry.chars == null) {
@@ -303,8 +304,8 @@
 					let entryOuter = document.createElement("div");
 					entryOuter.className = "entry";
 					entryOuter.setAttribute("style", `margin-top: ${verticalSeparation-20}px;
-													  margin-left: ${horizontalSeparation}px;
-													  margin-right: ${horizontalSeparation}px;`);
+													  margin-left: ${sideSep}px;
+													  margin-right: ${sideSep}px;`);
 					let entryTag = document.createElement("div");
 					entryTag.className = entry.side === leftSide ? "entryInner entryInnerLeft" : "entryInner entryInnerRight";
 					entryTag.appendChild(
