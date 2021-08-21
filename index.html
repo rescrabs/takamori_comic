@@ -183,14 +183,14 @@
 			}
 
 			const avatars = {
-				kiara: "https://rescrabs.github.io/takamori_comic/kiara.png",
-				calli: "https://rescrabs.github.io/takamori_comic/calli.png",
-                gawr: "https://rescrabs.github.io/takamori_comic/gawr.png",
-				gura: "https://rescrabs.github.io/takamori_comic/gura.png",
-				amelia: "https://rescrabs.github.io/takamori_comic/ame.png",
-				ame: "https://rescrabs.github.io/takamori_comic/ame.png",
-				ina: "https://rescrabs.github.io/takamori_comic/ina.png",
-				irys: "https://rescrabs.github.io/takamori_comic/irys.png",
+				kiara: "kiara.png",
+				calli: "calli.png",
+                gawr: "gawr.png",
+				gura: "gura.png",
+				amelia: "ame.png",
+				ame: "ame.png",
+				ina: "ina.png",
+				irys: "irys.png",
 			}
 			function drawAvatars(characters, side) {
 				let retTag = document.createElement("div");
@@ -200,9 +200,9 @@
 					let img = document.createElement("img");
 					if (character === "smolame") {
 						if (side === leftSide) {
-							img.src = "https://rescrabs.github.io/takamori_comic/smolAmeLeft.png";
+							img.src = "smolAmeLeft.png";
 						} else {
-							img.src = "https://rescrabs.github.io/takamori_comic/smolAmeRight.png";
+							img.src = "smolAmeRight.png";
 						}
 					} else if (avatars[character] === undefined) {
 						throw new Error("unknown character: "+character);
