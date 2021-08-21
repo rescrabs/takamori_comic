@@ -358,9 +358,9 @@
 				let w = window.open();
 				html2canvas(document.getElementById("renderSpace")).then(function(canvas) {
 					canvas.toBlob(blob=>{
-                        let url = URL.createObjectURL(blob);
-                        w.location = url;
-                    });
+						let url = URL.createObjectURL(blob);
+						w.location = url;
+					});
 				}).catch(function(){
 					w.close();
 				});
