@@ -183,14 +183,14 @@
 			}
 
 			const avatars = {
-				kiara: "https://rescrabs.github.io/takamori_comic/kiara.png",
-				calli: "https://rescrabs.github.io/takamori_comic/calli.png",
-                gawr: "https://rescrabs.github.io/takamori_comic/gawr.png",
-				gura: "https://rescrabs.github.io/takamori_comic/gura.png",
-				amelia: "https://rescrabs.github.io/takamori_comic/ame.png",
-				ame: "https://rescrabs.github.io/takamori_comic/ame.png",
-				ina: "https://rescrabs.github.io/takamori_comic/ina.png",
-				irys: "https://rescrabs.github.io/takamori_comic/irys.png",
+				kiara: "kiara.png",
+				calli: "calli.png",
+                gawr: "gawr.png",
+				gura: "gura.png",
+				amelia: "ame.png",
+				ame: "ame.png",
+				ina: "ina.png",
+				irys: "irys.png",
 			}
 			function drawAvatars(characters, side) {
 				let retTag = document.createElement("div");
@@ -200,9 +200,9 @@
 					let img = document.createElement("img");
 					if (character === "smolame") {
 						if (side === leftSide) {
-							img.src = "https://rescrabs.github.io/takamori_comic/smolAmeLeft.png";
+							img.src = "smolAmeLeft.png";
 						} else {
-							img.src = "https://rescrabs.github.io/takamori_comic/smolAmeRight.png";
+							img.src = "smolAmeRight.png";
 						}
 					} else if (avatars[character] === undefined) {
 						throw new Error("unknown character: "+character);
@@ -298,7 +298,43 @@
 
 			const updateText = debounce(runRender, 500);
 
+			function parseHash(hash){
+				if (!hash) {
+					return;
+				}
+				try {
+					let data = JSON.parse(atob(decodeURIComponent(hash.substring(1))));
+					if (data.text && data.width && data.v && data.h && data.side) {
+						document.getElementById("inp").value = data.text;
+						document.getElementById("textWidth").value = data.width;
+						document.getElementById("verSeparation").value = data.v;
+						document.getElementById("horSeparation").value = data.h;
+						document.getElementById("startSide").value = data.side;
+					}
+				}catch(_){
+					alert("Invalid URL");
+				}
+			}
+
+			function updateHash(){
+				let data = {
+					text: document.getElementById("inp").value,
+					width: document.getElementById("textWidth").value,
+					v: document.getElementById("verSeparation").value,
+					h: document.getElementById("horSeparation").value,
+					side: document.getElementById("startSide").value,
+				}
+				location.hash = "#"+encodeURIComponent(btoa(JSON.stringify(data)));
+				if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+					navigator.clipboard.writeText(location);
+					alert("Copied link to clipboard!");
+				}else{
+					prompt("Link: ", location)
+				}
+			}
+
 			window.onload = function() {
+				parseHash(location.hash);
 				let textWidthTag = document.getElementById("textWidth");
 				document.getElementById("textWidthDisplay").innerHTML = textWidthTag.value + "px";
 				textWidth = parseInt(textWidthTag.value);
@@ -319,11 +355,14 @@
 
 			
 			function renderCanvas() {
+				let w = window.open();
 				html2canvas(document.getElementById("renderSpace")).then(function(canvas) {
 					canvas.toBlob(blob=>{
-                        let url = URL.createObjectURL(blob);
-                        window.open(url, "_blank")
-                    });
+						let url = URL.createObjectURL(blob);
+						w.location = url;
+					});
+				}).catch(function(){
+					w.close();
 				});
 			}
 			
@@ -364,6 +403,7 @@ kiara: YOU'RE THE ONE WHO CAME IN HERE</textarea>
 				</div>
 			</div>
 			<button onclick="renderCanvas()">Open as PNG</button>
+			<button onclick="updateHash()">Get link</button>
 			<div id="renderSpace"></div>
 		</div>
 	</body>
