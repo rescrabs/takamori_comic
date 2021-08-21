@@ -142,7 +142,7 @@
 			}
 
 			function parseInput(inp) {
-				let lines = [...(inp+"\n").matchAll(/([^\s:]* *(?:, *[^\s:]* *)*),? *:\s+([^\n]+)(\n+)/g)];
+				let lines = [...(inp+"\n").matchAll(/([^\s:]* *(?:, *[^\s:]* *)*),? *:\s+([^\n]*)(\n+)/g)];
 				let entries = [];
 				let curSide = startSide;
 				for (line of lines) {
