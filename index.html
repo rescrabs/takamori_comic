@@ -58,6 +58,9 @@
 				font-size: 20px;
 				font-weight: bold;
 			}
+            .entryCenter {
+                float: center;
+            }
 			#renderOptions {
 				padding: 5px;
 				margin: 20px;
@@ -142,13 +145,15 @@
 			}
 
 			function parseInput(inp) {
-				let lines = [...(inp+"\n").matchAll(/([^\s:]* *(?:, *[^\s:]* *)*),? *: *([^\n]*)(\n+)/g)];
+				let lines = [...(inp+"\n").matchAll(/(([^\s:]* *(?:, *[^\s:]* *)*),? *: *)?([^\n]*)(\n+)/g)];
 				let entries = [];
 				let curSide = startSide;
 				for (line of lines) {
-					let [, name, text, ending] = line;
+					let [, , names, text, ending] = line;
 					entries.push({
-						chars: name.split(",").map((x) => x.trim().toLowerCase()),
+						chars: names == null
+                            ? null
+                            : names.split(",").map(x => x.trim().toLowerCase()).filter(x => x !== ""),
 						text,
 						side: curSide,
 					});
@@ -215,6 +220,7 @@
 				}
 				
 				switch (characters.length) {
+                case 0:
 				case 1:
 				case 2:
 					for (img of images) {
@@ -275,11 +281,25 @@
 				return tag;
 			}
 
+            function renderCenterText(root, text) {
+                let entry = document.createElement("div");
+                entry.className = "centerEntry";
+                entry.setAttribute("style", `margin-top: ${verticalSeparation+20}px;
+                                             margin-bottom: ${verticalSeparation+20}px;`);
+                entry.appendChild(formatText(text));
+				root.appendChild(entry);
+            }
+
 			function runRender() {
 				let root = document.getElementById("renderSpace");
 				root.innerHTML = "";
 				let entries = parseInput(document.getElementById("inp").value);
 				for (entry of entries) {
+                    if (entry.chars == null) {
+                        // center text
+                        renderCenterText(root, entry.text);
+                        continue;
+                    }
 					let entryOuter = document.createElement("div");
 					entryOuter.className = "entry";
 					entryOuter.setAttribute("style", `margin-top: ${verticalSeparation-20}px;
