@@ -100,6 +100,7 @@
 				}
 			}, 200);
 			function updateSlider(amount) {
+				updateHash();
 				let val = document.getElementById("textWidth").value;
 				document.getElementById("textWidthDisplay").innerHTML = val + "px";
 				updateSliderRender(val);
@@ -113,6 +114,7 @@
 				}
 			}, 200);
 			function updateVerSeparation(amount) {
+				updateHash();
 				let verSeparation = document.getElementById("verSeparation").value;
 				document.getElementById("verSeparationDisplay").innerHTML = verSeparation + "px";
 				updateVerSeparationRender(verSeparation);
@@ -126,6 +128,7 @@
 				}
 			}, 200);
 			function updateHorSeparation(amount) {
+				updateHash();
 				let horSeparation = document.getElementById("horSeparation").value;
 				document.getElementById("horSeparationDisplay").innerHTML = horSeparation + "px";
 				updateHorSeparationRender(horSeparation);
@@ -134,6 +137,7 @@
 			let startSide;
 
 			function updateSide(side) {
+				updateHash();
 				startSide = side;
 				let root = document.getElementById("renderSpace");
 				if (root.innerHTML !== "") {
@@ -296,9 +300,42 @@
 				}
 			}
 
-			const updateText = debounce(runRender, 500);
+			function updateText(...args){
+				updateHash();
+				return debounce(runRender, 500)(...args);
+			}
+
+			function parseHash(hash){
+				if (!hash) {
+					return;
+				}
+				try {
+					let data = JSON.parse(decodeURIComponent(hash.substring(1)));
+					if (data.text && data.width && data.v && data.h && data.side) {
+						document.getElementById("inp").value = data.text;
+						document.getElementById("textWidth").value = data.width;
+						document.getElementById("verSeparation").value = data.v;
+						document.getElementById("horSeparation").value = data.h;
+						document.getElementById("startSide").value = data.side;
+					}
+				}catch(_){
+					alert("Invalid URL");
+				}
+			}
+
+			function updateHash(){
+				let data = {
+					text: document.getElementById("inp").value,
+					width: document.getElementById("textWidth").value,
+					v: document.getElementById("verSeparation").value,
+					h: document.getElementById("horSeparation").value,
+					side: document.getElementById("startSide").value,
+				}
+				location.hash = "#"+encodeURIComponent(JSON.stringify(data));
+			}
 
 			window.onload = function() {
+				parseHash(location.hash);
 				let textWidthTag = document.getElementById("textWidth");
 				document.getElementById("textWidthDisplay").innerHTML = textWidthTag.value + "px";
 				textWidth = parseInt(textWidthTag.value);
